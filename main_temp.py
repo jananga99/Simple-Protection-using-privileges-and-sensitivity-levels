@@ -1,6 +1,7 @@
 import xml.etree.ElementTree as ET
 
 from DrugPrescription import DrugPrescription
+from LabTestPrescription import LabTestPrescription
 from PersonalDetails import PersonalDetails
 from SicknessDetails import SicknessDetails
 
@@ -16,13 +17,18 @@ root = tree.getroot()
 # obj.name = "Dengue"
 
 # obj = DrugPrescription("-1", "0", "ERT", "Do not use often", 4)
-obj = DrugPrescription.readTag(DrugPrescription.findTag(root, '0'))
-obj.name = "PRBG*"
+# obj = DrugPrescription.readTag(DrugPrescription.findTag(root, '0'))
+# obj.name = "PRBG*"
+
+#obj = LabTestPrescription("-1", "0", "PET-SCAN", "Dangerous", 3)
+obj = LabTestPrescription.readTag(LabTestPrescription.findTag(root, '0'))
+#obj.name = "VR"
+
 
 print(obj)
-# obj.createTag(root)
-# obj.modifyTag(root)
-# ET.indent(tree, '  ')
+#obj.createTag(root)
+#obj.modifyTag(root)
+#ET.indent(tree, '  ')
 obj.deleteTag(root)
 
 tree.write("data.xml")

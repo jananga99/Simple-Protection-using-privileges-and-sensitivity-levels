@@ -3,7 +3,7 @@
     <nextIdPersonalDetails>5</nextIdPersonalDetails>
     <nextIdSicknessDetails>6</nextIdSicknessDetails>
     <nextIdDrugPrescription>2</nextIdDrugPrescription>
-    <nextIdLabTestPrescription>0</nextIdLabTestPrescription>
+    <nextIdLabTestPrescription>2</nextIdLabTestPrescription>
   </header>
   <personalDetails>
     <tagId>4</tagId>
@@ -34,4 +34,11 @@
     <details>Do not use often</details>
     <sensitivity>4</sensitivity>
   </drugPrescription>
+  <labTestPrescription>
+    <tagId>1</tagId>
+    <personalId>0</personalId>
+    <name>PET-SCAN</name>
+    <details>Dangerous</details>
+    <sensitivity>3</sensitivity>
+  </labTestPrescription>
 </metadata>

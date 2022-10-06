@@ -28,7 +28,7 @@ class DrugPrescription:
             raise Exception(tag.tag + " is not a tag of type drugPrescription.")
         elif tag.find("tagId") is None or tag.find("name") is None or tag.find(
                 "personalId") is None or tag.find("details" or tag.find("sensitivity")):
-            raise Exception("User tag does not have all necessary data tags.")
+            raise Exception("Tag does not have all necessary data tags.")
         else:
             return DrugPrescription(tag.find("tagId").text, tag.find('personalId').text, tag.find("name").text,
                                     tag.find("details").text, tag.find('sensitivity').text)

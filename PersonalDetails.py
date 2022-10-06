@@ -29,7 +29,7 @@ class PersonalDetails:
             raise Exception(tag.tag + " is not a tag of type personalDetails.")
         elif tag.find("tagId") is None or tag.find("name") is None or tag.find(
                 "age") is None or tag.find("gender") is None or tag.find("city"):
-            raise Exception("User tag does not have all necessary data tags.")
+            raise Exception("Tag does not have all necessary data tags.")
         else:
             return PersonalDetails(tag.find("tagId").text, tag.find("name").text, tag.find("age").text,
                                    tag.find("gender").text, tag.find("city").text, tag.find('sensitivity').text)
