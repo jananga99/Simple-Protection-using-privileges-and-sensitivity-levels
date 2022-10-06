@@ -57,19 +57,3 @@ class PersonalDetails:
         ET.SubElement(new, 'sensitivity').text = self.sensitivity
         root[0].find('nextIdPersonalDetails').text = str(int(tagId) + 1)
         return new.find('tagId').text
-
-    def modifyTag(self, root):
-        r = PersonalDetails.findTag(root, self.tagId)
-        if r is None:
-            raise Exception("personalDetails XML tag is not found for root tag, " + root.tag)
-        r.find('name').text = self.name
-        r.find('age').text = self.age
-        r.find('gender').text = self.gender
-        r.find('city').text = self.city
-        r.find('sensitivity').text = self.sensitivity
-
-    def deleteTag(self, root):
-        r = PersonalDetails.findTag(root, self.tagId)
-        if r is None:
-            raise Exception("personalDetails XML tag is not found for root tag " + root)
-        root.remove(PersonalDetails.findTag(root, self.tagId))

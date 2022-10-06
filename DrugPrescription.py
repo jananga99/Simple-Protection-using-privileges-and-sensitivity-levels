@@ -56,17 +56,3 @@ class DrugPrescription:
         root[0].find('nextIdDrugPrescription').text = str(int(tagId) + 1)
         return new.find('tagId').text
 
-    def modifyTag(self, root):
-        r = DrugPrescription.findTag(root, self.tagId)
-        if r is None:
-            raise Exception("drugPrescription XML tag is not found for root tag, " + root.tag)
-        r.find('personalId').text = self.personalId
-        r.find('name').text = self.name
-        r.find('details').text = self.details
-        r.find('sensitivity').text = self.sensitivity
-
-    def deleteTag(self, root):
-        r = DrugPrescription.findTag(root, self.tagId)
-        if r is None:
-            raise Exception("drugPrescription XML tag is not found for root tag " + root)
-        root.remove(DrugPrescription.findTag(root, self.tagId))

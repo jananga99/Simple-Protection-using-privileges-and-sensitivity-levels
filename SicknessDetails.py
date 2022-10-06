@@ -55,18 +55,3 @@ class SicknessDetails:
         ET.SubElement(new, 'sensitivity').text = self.sensitivity
         root[0].find('nextIdSicknessDetails').text = str(int(tagId) + 1)
         return new.find('tagId').text
-
-    def modifyTag(self, root):
-        r = SicknessDetails.findTag(root, self.tagId)
-        if r is None:
-            raise Exception("sicknessDetails XML tag is not found for root tag, " + root.tag)
-        r.find('personalId').text = self.personalId
-        r.find('name').text = self.name
-        r.find('details').text = self.details
-        r.find('sensitivity').text = self.sensitivity
-
-    def deleteTag(self, root):
-        r = SicknessDetails.findTag(root, self.tagId)
-        if r is None:
-            raise Exception("sicknessDetails XML tag is not found for root tag " + root)
-        root.remove(SicknessDetails.findTag(root, self.tagId))

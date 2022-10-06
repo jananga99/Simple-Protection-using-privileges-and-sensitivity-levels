@@ -1,5 +1,6 @@
 import xml.etree.ElementTree as ET
 
+
 class User:
 
     def __init__(self, username, password, usertype, privilege):
@@ -19,9 +20,10 @@ class User:
             return User(userTag.find("username").text, userTag.find("password").text, userTag.find("usertype").text,
                         userTag.find("privilege").text)
 
-    def findTag(self, root):
+    @staticmethod
+    def findTag(root, username):
         for r in root:
-            if r.find('username').text == self.username:
+            if r.find('username').text == username:
                 return r
         return None
 
@@ -35,18 +37,3 @@ class User:
         ET.SubElement(new, 'usertype').text = self.usertype
         ET.SubElement(new, 'privilege').text = self.privilege
         return new
-
-    def modifyTag(self, root):
-        r = self.findTag(root)
-        if r is None:
-            raise Exception("user XML tag is not found for root tag, " + root.tag)
-        r.find('username').text = self.username
-        r.find('password').text = self.password
-        r.find('usertype').text = self.usertype
-        r.find('privilege').text = self.privilege
-
-    def deleteTag(self, root):
-        r = self.findTag(root)
-        if r is None:
-            raise Exception("user XML tag is not found for root tag " + root)
-        root.remove(self.findTag(root))
