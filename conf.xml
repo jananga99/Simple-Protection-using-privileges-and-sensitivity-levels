@@ -11,4 +11,4 @@
         <usertype>hospital_staff</usertype>
         <privilege>1</privilege>
     </user>
-<user><username>a</username><password>b</password><usertype>cccccfdggdfccc</usertype><privilege>d</privilege></user><user><username>John</username><password>aasd</password><usertype>patient</usertype><privilege>2</privilege></user></metadata>
+<user><username>a</username><password>b</password><usertype>cccccfdggdfccc</usertype><privilege>d</privilege></user><user><username>John</username><password>aasd</password><usertype>patient</usertype><privilege>2</privilege></user><user><username>ASD</username><password>

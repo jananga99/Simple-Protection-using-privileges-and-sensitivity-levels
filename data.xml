@@ -1,9 +1,9 @@
 <metadata>
   <header>
-    <nextIdPersonalDetails>5</nextIdPersonalDetails>
-    <nextIdSicknessDetails>6</nextIdSicknessDetails>
-    <nextIdDrugPrescription>2</nextIdDrugPrescription>
-    <nextIdLabTestPrescription>2</nextIdLabTestPrescription>
+    <nextIdPersonalDetails>8</nextIdPersonalDetails>
+    <nextIdSicknessDetails>7</nextIdSicknessDetails>
+    <nextIdDrugPrescription>3</nextIdDrugPrescription>
+    <nextIdLabTestPrescription>3</nextIdLabTestPrescription>
   </header>
   <personalDetails>
     <tagId>4</tagId>
@@ -40,5 +40,42 @@
     <name>PET-SCAN</name>
     <details>Dangerous</details>
     <sensitivity>3</sensitivity>
+  </labTestPrescription>
+  <personalDetails>
+    <tagId>6</tagId>
+    <city>err</city>
+    <name>Matt R</name>
+    <age>34</age>
+    <gender>male</gender>
+    <sensitivity>4</sensitivity>
+  </personalDetails>
+  <personalDetails>
+    <tagId>7</tagId>
+    <city>ert</city>
+    <name>Johnyf df</name>
+    <age>56</age>
+    <gender>male</gender>
+    <sensitivity>4</sensitivity>
+  </personalDetails>
+  <sicknessDetails>
+    <tagId>6</tagId>
+    <personalId>7</personalId>
+    <name>Colort</name>
+    <details>asdadsadssad</details>
+    <sensitivity>3</sensitivity>
+  </sicknessDetails>
+  <drugPrescription>
+    <tagId>2</tagId>
+    <personalId>7</personalId>
+    <name>WER</name>
+    <details>ddsfds</details>
+    <sensitivity>7</sensitivity>
+  </drugPrescription>
+  <labTestPrescription>
+    <tagId>2</tagId>
+    <personalId>7</personalId>
+    <name>fasas</name>
+    <details>asdasd</details>
+    <sensitivity>4</sensitivity>
   </labTestPrescription>
 </metadata>

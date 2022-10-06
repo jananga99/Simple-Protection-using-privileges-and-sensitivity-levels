@@ -54,7 +54,7 @@ class SicknessDetails:
         ET.SubElement(new, 'details').text = self.details
         ET.SubElement(new, 'sensitivity').text = self.sensitivity
         root[0].find('nextIdSicknessDetails').text = str(int(tagId) + 1)
-        return new
+        return new.find('tagId').text
 
     def modifyTag(self, root):
         r = SicknessDetails.findTag(root, self.tagId)
