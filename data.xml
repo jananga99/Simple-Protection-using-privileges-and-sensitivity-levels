@@ -1,8 +1,23 @@
 <metadata>
-    <header>
-        <nextIdPersonalDetails>1</nextIdPersonalDetails>
-        <nextIdSicknessDetails>2</nextIdSicknessDetails>
-        <nextIdDrugPrescriptions>0</nextIdDrugPrescriptions>
-        <nextIdLabTestPrescriptions>0</nextIdLabTestPrescriptions>
-    </header>
-<personalDetails><tagId>0</tagId><city>washinton</city><name>James</name><age>34</age><gender>male</gender></personalDetails><sicknessDetails><tagId>0</tagId><personalId>0</personalId><name>Colara</name><details>Very severe situation</details></sicknessDetails></metadata>
+  <header>
+    <nextIdPersonalDetails>5</nextIdPersonalDetails>
+    <nextIdSicknessDetails>5</nextIdSicknessDetails>
+    <nextIdDrugPrescriptions>0</nextIdDrugPrescriptions>
+    <nextIdLabTestPrescriptions>0</nextIdLabTestPrescriptions>
+  </header>
+  <personalDetails>
+    <tagId>4</tagId>
+    <city>washinton</city>
+    <name>James</name>
+    <age>34</age>
+    <gender>male</gender>
+    <sensitivity>2</sensitivity>
+  </personalDetails>
+  <sicknessDetails>
+    <tagId>4</tagId>
+    <personalId>0</personalId>
+    <name>Maleria</name>
+    <details>Very severe situation</details>
+    <sensitivity>2</sensitivity>
+  </sicknessDetails>
+</metadata>

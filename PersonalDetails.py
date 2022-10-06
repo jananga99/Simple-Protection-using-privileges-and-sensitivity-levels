@@ -4,9 +4,10 @@ import xml.etree.ElementTree as ET
 class PersonalDetails:
 
     # tagId = '-1' for new object who not in XML yet
-    def __init__(self, tagId, name, age, gender, city):
+    def __init__(self, tagId, name, age, gender, city, sensitivity='2'):
         tagId = str(tagId)
         age = str(age)
+        sensitivity = str(sensitivity)
         if not tagId.isnumeric() and tagId != "-1":
             raise Exception("Tag id must be an integer")
         self.tagId = tagId
@@ -16,9 +17,11 @@ class PersonalDetails:
             raise Exception("Gender must be male or female.")
         self.gender = gender
         self.city = city
+        self.sensitivity = sensitivity
 
     def __str__(self):
-        return "Personal Object: %s, %s, %s, %s, %s" % (self.tagId, self.name, self.age, self.gender, self.city)
+        return "Personal Object: %s, %s, %s, %s, %s, %s" % (
+            self.tagId, self.name, self.age, self.gender, self.city, self.sensitivity)
 
     @staticmethod
     def readTag(tag):
@@ -29,7 +32,7 @@ class PersonalDetails:
             raise Exception("User tag does not have all necessary data tags.")
         else:
             return PersonalDetails(tag.find("tagId").text, tag.find("name").text, tag.find("age").text,
-                                   tag.find("gender").text, tag.find("city").text)
+                                   tag.find("gender").text, tag.find("city").text, tag.find('sensitivity').text)
 
     @staticmethod
     def findTag(root, tagId):
@@ -51,6 +54,7 @@ class PersonalDetails:
         ET.SubElement(new, 'name').text = self.name
         ET.SubElement(new, 'age').text = self.age
         ET.SubElement(new, 'gender').text = self.gender
+        ET.SubElement(new, 'sensitivity').text = self.sensitivity
         root[0].find('nextIdPersonalDetails').text = str(int(tagId) + 1)
         return new
 
@@ -62,6 +66,7 @@ class PersonalDetails:
         r.find('age').text = self.age
         r.find('gender').text = self.gender
         r.find('city').text = self.city
+        r.find('sensitivity').text = self.sensitivity
 
     def deleteTag(self, root):
         r = PersonalDetails.findTag(root, self.tagId)
