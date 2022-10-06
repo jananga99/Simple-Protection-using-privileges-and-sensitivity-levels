@@ -1,9 +1,9 @@
 <metadata>
   <header>
     <nextIdPersonalDetails>5</nextIdPersonalDetails>
-    <nextIdSicknessDetails>5</nextIdSicknessDetails>
-    <nextIdDrugPrescriptions>0</nextIdDrugPrescriptions>
-    <nextIdLabTestPrescriptions>0</nextIdLabTestPrescriptions>
+    <nextIdSicknessDetails>6</nextIdSicknessDetails>
+    <nextIdDrugPrescription>2</nextIdDrugPrescription>
+    <nextIdLabTestPrescription>0</nextIdLabTestPrescription>
   </header>
   <personalDetails>
     <tagId>4</tagId>
@@ -20,4 +20,18 @@
     <details>Very severe situation</details>
     <sensitivity>2</sensitivity>
   </sicknessDetails>
+  <sicknessDetails>
+    <tagId>5</tagId>
+    <personalId>0</personalId>
+    <name>Maleria</name>
+    <details>Very severe situation</details>
+    <sensitivity>2</sensitivity>
+  </sicknessDetails>
+  <drugPrescription>
+    <tagId>1</tagId>
+    <personalId>0</personalId>
+    <name>POI*</name>
+    <details>Do not use often</details>
+    <sensitivity>4</sensitivity>
+  </drugPrescription>
 </metadata>
