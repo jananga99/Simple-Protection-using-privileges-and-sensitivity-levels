@@ -21,14 +21,18 @@ root = tree.getroot()
 # obj.name = "PRBG*"
 
 #obj = LabTestPrescription("-1", "0", "PET-SCAN", "Dangerous", 3)
-obj = LabTestPrescription.readTag(LabTestPrescription.findTag(root, '0'))
+#obj = LabTestPrescription.readTag(LabTestPrescription.findTag(root, '0'))
 #obj.name = "VR"
 
 
-print(obj)
+#print(obj)
 #obj.createTag(root)
 #obj.modifyTag(root)
 #ET.indent(tree, '  ')
-obj.deleteTag(root)
+#obj.deleteTag(root)
+
+a = input().strip()
+
+print(a == '')
 
 tree.write("data.xml")
