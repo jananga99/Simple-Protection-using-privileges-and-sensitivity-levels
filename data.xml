@@ -1,8 +1,8 @@
 <metadata>
     <header>
         <nextIdPersonalDetails>1</nextIdPersonalDetails>
-        <nextIdSicknessDetails>0</nextIdSicknessDetails>
+        <nextIdSicknessDetails>2</nextIdSicknessDetails>
         <nextIdDrugPrescriptions>0</nextIdDrugPrescriptions>
         <nextIdLabTestPrescriptions>0</nextIdLabTestPrescriptions>
     </header>
-</metadata>
+<personalDetails><tagId>0</tagId><city>washinton</city><name>James</name><age>34</age><gender>male</gender></personalDetails><sicknessDetails><tagId>0</tagId><personalId>0</personalId><name>Colara</name><details>Very severe situation</details></sicknessDetails></metadata>
