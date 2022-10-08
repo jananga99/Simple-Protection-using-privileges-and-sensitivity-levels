@@ -9,19 +9,34 @@ success, result = controller.login()
 #print(success)
 #print(msg)
 
-success, result = controller.editPersonalDetails("a", {"id":"0", "desc":"New Man I Am", "sensitivity":"5"})
+"""
+success, result = controller.deletePersonalDetails("a", "1")
 print(success)
 print(result)
-success, result = controller.editSicknessDetails("a", {"id":"10", "desc":"New Sickness I Am", "sensitivity":"5"})
+success, result = controller.deleteSicknessDetails("a", "1")
 print(success)
 print(result)
-success, result = controller.editDrugPrescription("a", {"id":"0", "desc":"New Drug I Am", "sensitivity":"5"})
+success, result = controller.deleteDrugPrescription("a", "1")
 print(success)
 print(result)
-success, result = controller.editLabTestPrescription("a", {"id":"0", "desc":"New Lab test I Am", "sensitivity":"5"})
+success, result = controller.deleteLabTestPrescription("a", "1")
 print(success)
 print(result)
-
+"""
+"""
+success, result = controller.editPersonalDetails("a", {"id":"0", "desc":"New Man I Am", "sensitivity":"5b"})
+print(success)
+print(result)
+success, result = controller.editSicknessDetails("a", {"id":"10", "desc":"New Sickness I Am", "sensitivity":"5v"})
+print(success)
+print(result)
+success, result = controller.editDrugPrescription("a", {"id":"0", "desc":"New Drug I Am", "sensitivity":"5r"})
+print(success)
+print(result)
+success, result = controller.editLabTestPrescription("a", {"id":"0", "desc":"New Lab test I Am", "sensitivity":"5c"})
+print(success)
+print(result)
+"""
 
 
 """

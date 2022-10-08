@@ -87,6 +87,7 @@ class Controller:
         ET.SubElement(new, 'id').text = str(count)
         ET.SubElement(new, 'desc').text = data
         ET.SubElement(new, 'sensitivity').text = sensitivity
+        ET.SubElement(new, "isDeleted").text = str(False)
         ET.indent(dataTree, '  ')
         dataTree.write(dataFile)
         return True, {"id": str(count), "desc": data, "sensitivity": sensitivity}
@@ -107,6 +108,7 @@ class Controller:
         ET.SubElement(new, 'id').text = str(count)
         ET.SubElement(new, 'desc').text = data
         ET.SubElement(new, 'sensitivity').text = sensitivity
+        ET.SubElement(new, "isDeleted").text = str(False)
         ET.indent(dataTree, '  ')
         dataTree.write(dataFile)
         return True, {"id": str(count), "desc": data, "sensitivity": sensitivity}
@@ -127,6 +129,7 @@ class Controller:
         ET.SubElement(new, 'id').text = str(count)
         ET.SubElement(new, 'desc').text = data
         ET.SubElement(new, 'sensitivity').text = sensitivity
+        ET.SubElement(new, "isDeleted").text = str(False)
         ET.indent(dataTree, '  ')
         dataTree.write(dataFile)
         return True, {"id": str(count), "desc": data, "sensitivity": sensitivity}
@@ -147,6 +150,7 @@ class Controller:
         ET.SubElement(new, 'id').text = str(count)
         ET.SubElement(new, 'desc').text = data
         ET.SubElement(new, 'sensitivity').text = sensitivity
+        ET.SubElement(new, "isDeleted").text = str(False)
         ET.indent(dataTree, '  ')
         dataTree.write(dataFile)
         return True, {"id": str(count), "desc": data, "sensitivity": sensitivity}
@@ -162,9 +166,10 @@ class Controller:
             return False, "No personal details for username"
         retData = []
         for dataRecord in subDataRoot:
-            retData.append(
-                {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
-                 "sensitivity": dataRecord.find("sensitivity").text})
+            if dataRecord.find("isDeleted").text == "False":
+                retData.append(
+                    {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
+                     "sensitivity": dataRecord.find("sensitivity").text})
         return True, retData
 
     def viewSicknessDetails(self, username):
@@ -178,9 +183,10 @@ class Controller:
             raise Exception("No sickness details for username")
         retData = []
         for dataRecord in subDataRoot:
-            retData.append(
-                {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
-                 "sensitivity": dataRecord.find("sensitivity").text})
+            if dataRecord.find("isDeleted").text == "False":
+                retData.append(
+                    {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
+                     "sensitivity": dataRecord.find("sensitivity").text})
         return True, retData
 
     def viewDrugPrescription(self, username):
@@ -194,9 +200,10 @@ class Controller:
             return False, "No personal details for username"
         retData = []
         for dataRecord in subDataRoot:
-            retData.append(
-                {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
-                 "sensitivity": dataRecord.find("sensitivity").text})
+            if dataRecord.find("isDeleted").text == "False":
+                retData.append(
+                    {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
+                     "sensitivity": dataRecord.find("sensitivity").text})
         return True, retData
 
     def viewLabTestPrescription(self, username):
@@ -210,9 +217,10 @@ class Controller:
             return False, "No personal details for username"
         retData = []
         for dataRecord in subDataRoot:
-            retData.append(
-                {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
-                 "sensitivity": dataRecord.find("sensitivity").text})
+            if dataRecord.find("isDeleted").text == "False":
+                retData.append(
+                    {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
+                     "sensitivity": dataRecord.find("sensitivity").text})
         return True, retData
 
     def editPersonalDetails(self, username, data):
@@ -225,7 +233,7 @@ class Controller:
         if subDataRoot is None:
             return False, "No personal details for username"
         for dataRecord in subDataRoot:
-            if dataRecord.find("id").text == data["id"]:
+            if dataRecord.find("id").text == data["id"] and dataRecord.find("isDeleted").text == "False":
                 dataRecord.find("desc").text = data["desc"]
                 dataRecord.find("sensitivity").text = data["sensitivity"]
                 dataTree.write(dataFile)
@@ -242,7 +250,7 @@ class Controller:
         if subDataRoot is None:
             return False, "No sickness details for username"
         for dataRecord in subDataRoot:
-            if dataRecord.find("id").text == data["id"]:
+            if dataRecord.find("id").text == data["id"] and dataRecord.find("isDeleted").text == "False":
                 dataRecord.find("desc").text = data["desc"]
                 dataRecord.find("sensitivity").text = data["sensitivity"]
                 dataTree.write(dataFile)
@@ -259,7 +267,7 @@ class Controller:
         if subDataRoot is None:
             return False, "No drug prescription for username"
         for dataRecord in subDataRoot:
-            if dataRecord.find("id").text == data["id"]:
+            if dataRecord.find("id").text == data["id"] and dataRecord.find("isDeleted").text == "False":
                 dataRecord.find("desc").text = data["desc"]
                 dataRecord.find("sensitivity").text = data["sensitivity"]
                 dataTree.write(dataFile)
@@ -276,9 +284,73 @@ class Controller:
         if subDataRoot is None:
             return False, "No lab test prescription for username"
         for dataRecord in subDataRoot:
-            if dataRecord.find("id").text == data["id"]:
+            if dataRecord.find("id").text == data["id"] and dataRecord.find("isDeleted").text == "False":
                 dataRecord.find("desc").text = data["desc"]
                 dataRecord.find("sensitivity").text = data["sensitivity"]
                 dataTree.write(dataFile)
                 return True, {"id": data["id"], "desc": data["desc"], "sensitivity": data["sensitivity"]}
+        return False, "No data record for given id"
+
+    def deletePersonalDetails(self, username, dataId):
+        if not self.isLoggedIn:
+            return False, "User not logged in."
+        success, userDataRoot = self.__findUserDataTag(username)
+        if not success:
+            return False, "No user data found for this user."
+        subDataRoot = userDataRoot.find('PersonalDetails')
+        if subDataRoot is None:
+            return False, "No personal details for user data"
+        for dataRecord in subDataRoot:
+            if dataRecord.find("id").text == dataId and dataRecord.find("isDeleted").text == "False":
+                dataRecord.find("isDeleted").text = "True"
+                dataTree.write(dataFile)
+                return True, {"id": dataId, "isDeleted": "True"}
+        return False, "No data record for given id"
+
+    def deleteSicknessDetails(self, username, dataId):
+        if not self.isLoggedIn:
+            return False, "User not logged in."
+        success, userDataRoot = self.__findUserDataTag(username)
+        if not success:
+            return False, "No user data found for this user."
+        subDataRoot = userDataRoot.find('SicknessDetails')
+        if subDataRoot is None:
+            return False, "No sickness details for user data"
+        for dataRecord in subDataRoot:
+            if dataRecord.find("id").text == dataId and dataRecord.find("isDeleted").text == "False":
+                dataRecord.find("isDeleted").text = "True"
+                dataTree.write(dataFile)
+                return True, {"id": dataId, "isDeleted": "True"}
+        return False, "No data record for given id"
+
+    def deleteDrugPrescription(self, username, dataId):
+        if not self.isLoggedIn:
+            return False, "User not logged in."
+        success, userDataRoot = self.__findUserDataTag(username)
+        if not success:
+            return False, "No user data found for this user."
+        subDataRoot = userDataRoot.find('DrugPrescription')
+        if subDataRoot is None:
+            return False, "No drug prescription for user data"
+        for dataRecord in subDataRoot:
+            if dataRecord.find("id").text == dataId and dataRecord.find("isDeleted").text == "False":
+                dataRecord.find("isDeleted").text = "True"
+                dataTree.write(dataFile)
+                return True, {"id": dataId, "isDeleted": "True"}
+        return False, "No data record for given id"
+
+    def deleteLabTestPrescription(self, username, dataId):
+        if not self.isLoggedIn:
+            return False, "User not logged in."
+        success, userDataRoot = self.__findUserDataTag(username)
+        if not success:
+            return False, "No user data found for this user."
+        subDataRoot = userDataRoot.find('LabTestPrescription')
+        if subDataRoot is None:
+            return False, "No lab test prescription for user data"
+        for dataRecord in subDataRoot:
+            if dataRecord.find("id").text == dataId and dataRecord.find("isDeleted").text == "False":
+                dataRecord.find("isDeleted").text = "True"
+                dataTree.write(dataFile)
+                return True, {"id": dataId, "isDeleted": "True"}
         return False, "No data record for given id"
