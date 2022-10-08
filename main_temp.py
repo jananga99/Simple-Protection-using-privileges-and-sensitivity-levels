@@ -9,6 +9,22 @@ success, result = controller.login()
 #print(success)
 #print(msg)
 
+success, result = controller.editPersonalDetails("a", {"id":"0", "desc":"New Man I Am", "sensitivity":"5"})
+print(success)
+print(result)
+success, result = controller.editSicknessDetails("a", {"id":"10", "desc":"New Sickness I Am", "sensitivity":"5"})
+print(success)
+print(result)
+success, result = controller.editDrugPrescription("a", {"id":"0", "desc":"New Drug I Am", "sensitivity":"5"})
+print(success)
+print(result)
+success, result = controller.editLabTestPrescription("a", {"id":"0", "desc":"New Lab test I Am", "sensitivity":"5"})
+print(success)
+print(result)
+
+
+
+"""
 success, result = controller.viewPersonalDetails("a")
 print(success)
 print(result)
@@ -21,6 +37,7 @@ print(result)
 success, result = controller.viewLabTestPrescription("a")
 print(success)
 print(result)
+"""
 
 """
 success, result = controller.addPersonalDetails("Moved to los angaleses")

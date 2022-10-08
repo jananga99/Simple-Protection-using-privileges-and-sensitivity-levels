@@ -4,8 +4,8 @@
     <PersonalDetails>
       <data>
         <id>0</id>
-        <desc>Age = 23, Big</desc>
-        <sensitivity>0</sensitivity>
+        <desc>New Man I Am</desc>
+        <sensitivity>5</sensitivity>
       </data>
       <data>
         <id>1</id>
@@ -26,8 +26,8 @@
     <SicknessDetails>
       <data>
         <id>0</id>
-        <desc>Man down , I repeat man down</desc>
-        <sensitivity>0</sensitivity>
+        <desc>New Sickness I Am</desc>
+        <sensitivity>5</sensitivity>
       </data>
       <data>
         <id>1</id>
@@ -38,8 +38,8 @@
     <LabTestPrescription>
       <data>
         <id>0</id>
-        <desc>Well crazy mf</desc>
-        <sensitivity>0</sensitivity>
+        <desc>New Lab test I Am</desc>
+        <sensitivity>5</sensitivity>
       </data>
       <data>
         <id>1</id>
@@ -50,8 +50,8 @@
     <DrugPrescription>
       <data>
         <id>0</id>
-        <desc>KASIPPU</desc>
-        <sensitivity>0</sensitivity>
+        <desc>New Drug I Am</desc>
+        <sensitivity>5</sensitivity>
       </data>
       <data>
         <id>1</id>
