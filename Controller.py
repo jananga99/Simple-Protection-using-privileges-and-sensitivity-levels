@@ -10,7 +10,7 @@ dataTree = ET.parse(dataFile)
 dataRoot = dataTree.getroot()
 
 
-class User:
+class Controller:
 
     def __init__(self, username, password, usertype, privilege='0'):  # default privilege level
         self.username = username
@@ -48,18 +48,18 @@ class User:
                 return True, userRoot
         return False, None
 
-    def findUserDataTag(self):
+    def findUserDataTag(self, username):
         if not self.isLoggedIn:
             raise Exception("Tried to access user data when no user is logged in.")
         for userDataRoot in dataRoot:
-            if userDataRoot.find('Username').text == self.username:
+            if userDataRoot.find('Username').text == username:
                 return True, userDataRoot
         return False, None
 
     def login(self):
         if self.isLoggedIn:
             return False, "User already logged in."
-        for userRoot in configurationRoot:
+        for _ in configurationRoot:
             if self.findUserTag()[0]:
                 self.isLoggedIn = True
                 return True, self
@@ -74,7 +74,7 @@ class User:
     def addPersonalDetails(self, data, sensitivity='0'):
         if not self.isLoggedIn:
             return False, "User not logged in."
-        success, userDataRoot = self.findUserDataTag()
+        success, userDataRoot = self.findUserDataTag(self.username)
         if not success:
             raise Exception("No user data found for this user.")
         subDataRoot = userDataRoot.find('PersonalDetails')
@@ -94,7 +94,7 @@ class User:
     def addSicknessDetails(self, data, sensitivity='0'):
         if not self.isLoggedIn:
             return False, "User not logged in."
-        success, userDataRoot = self.findUserDataTag()
+        success, userDataRoot = self.findUserDataTag(self.username)
         if not success:
             raise Exception("No user data found for this user.")
         subDataRoot = userDataRoot.find('SicknessDetails')
@@ -114,7 +114,7 @@ class User:
     def addDrugPrescription(self, data, sensitivity='0'):
         if not self.isLoggedIn:
             return False, "User not logged in."
-        success, userDataRoot = self.findUserDataTag()
+        success, userDataRoot = self.findUserDataTag(self.username)
         if not success:
             raise Exception("No user data found for this user.")
         subDataRoot = userDataRoot.find('DrugPrescription')
@@ -134,7 +134,7 @@ class User:
     def addLabTestPrescription(self, data, sensitivity='0'):
         if not self.isLoggedIn:
             return False, "User not logged in."
-        success, userDataRoot = self.findUserDataTag()
+        success, userDataRoot = self.findUserDataTag(self.username)
         if not success:
             raise Exception("No user data found for this user.")
         subDataRoot = userDataRoot.find('LabTestPrescription')
@@ -150,3 +150,68 @@ class User:
         ET.indent(dataTree, '  ')
         dataTree.write(dataFile)
         return True, {"id": str(count), "desc": data, "sensitivity": sensitivity}
+
+    def viewPersonalDetails(self, username):
+        if not self.isLoggedIn:
+            return False, "User not logged in."
+        success, userDataRoot = self.findUserDataTag(username)
+        if not success:
+            return False, "No user exits for given username"
+        subDataRoot = userDataRoot.find('PersonalDetails')
+        if subDataRoot is None:
+            raise Exception("No personal details for username")
+        retData = []
+        for dataRecord in subDataRoot:
+            retData.append(
+                {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
+                 "sensitivity": dataRecord.find("sensitivity").text})
+        return True, retData
+
+    def viewSicknessDetails(self, username):
+        if not self.isLoggedIn:
+            return False, "User not logged in."
+        success, userDataRoot = self.findUserDataTag(username)
+        if not success:
+            return False, "No user exits for given username"
+        subDataRoot = userDataRoot.find('SicknessDetails')
+        if subDataRoot is None:
+            raise Exception("No sickness details for username")
+        retData = []
+        for dataRecord in subDataRoot:
+            retData.append(
+                {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
+                 "sensitivity": dataRecord.find("sensitivity").text})
+        return True, retData
+
+    def viewDrugPrescription(self, username):
+        if not self.isLoggedIn:
+            return False, "User not logged in."
+        success, userDataRoot = self.findUserDataTag(username)
+        if not success:
+            return False, "No user exits for given username"
+        subDataRoot = userDataRoot.find('DrugPrescription')
+        if subDataRoot is None:
+            raise Exception("No drug prescription for username")
+        retData = []
+        for dataRecord in subDataRoot:
+            retData.append(
+                {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
+                 "sensitivity": dataRecord.find("sensitivity").text})
+        return True, retData
+
+    def viewLabTestPrescription(self, username):
+        if not self.isLoggedIn:
+            return False, "User not logged in."
+        success, userDataRoot = self.findUserDataTag(username)
+        if not success:
+            return False, "No user exits for given username"
+        subDataRoot = userDataRoot.find('LabTestPrescription')
+        if subDataRoot is None:
+            raise Exception("No lab test prescription for username")
+        retData = []
+        for dataRecord in subDataRoot:
+            retData.append(
+                {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
+                 "sensitivity": dataRecord.find("sensitivity").text})
+        return True, retData
+

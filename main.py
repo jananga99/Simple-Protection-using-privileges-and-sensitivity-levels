@@ -2,7 +2,7 @@ import hashlib
 import xml.etree.ElementTree as ET
 
 
-from User import User
+from Controller import Controller
 
 configurationFile = 'conf.xml'
 configurationTree = ET.parse(configurationFile)
@@ -50,7 +50,7 @@ while keepGoing:
                 privilege = input("Privilege Level : ").strip()
         else:
             privilege = '0'
-        user = User(username, password, usertype, privilege)
+        user = Controller(username, password, usertype, privilege)
         user.createTag(configurationRoot)
         configurationTree.write(configurationFile)
 
@@ -130,11 +130,11 @@ while keepGoing:
     elif option == '6':
         print('View patient')
         username = input("Patient username : ").strip()
-        user = User.readTag(User.findTag(configurationRoot, username))
+        user = Controller.readTag(Controller.findTag(configurationRoot, username))
         while user is None or user.usertype != 'patient':
             print('Enter valid username')
             username = input("Patient username : ").strip()
-            user = User.readTag(User.findTag(configurationRoot, username))
+            user = Controller.readTag(Controller.findTag(configurationRoot, username))
         print("Username : " + username)
         print("User type : " + user.usertype)
         print("Privilege Level : " + user.privilege)
@@ -142,11 +142,11 @@ while keepGoing:
     elif option == '7':
         print('View staff')
         username = input("Hospital Staff username : ").strip()
-        user = User.readTag(User.findTag(configurationRoot, username))
+        user = Controller.readTag(Controller.findTag(configurationRoot, username))
         while user is None or user.usertype != 'hospital_staff':
             print('Enter valid username')
             username = input("Hospital staff username : ").strip()
-            user = User.readTag(User.findTag(configurationRoot, username))
+            user = Controller.readTag(Controller.findTag(configurationRoot, username))
         print("Username : " + username)
         print("User type : " + user.usertype)
         print("Privilege Level : " + user.privilege)
