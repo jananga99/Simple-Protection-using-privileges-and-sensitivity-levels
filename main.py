@@ -1,10 +1,7 @@
 import hashlib
 import xml.etree.ElementTree as ET
 
-from DrugPrescription import DrugPrescription
-from LabTestPrescription import LabTestPrescription
-from PersonalDetails import PersonalDetails
-from SicknessDetails import SicknessDetails
+
 from User import User
 
 configurationFile = 'conf.xml'

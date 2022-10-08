@@ -1,14 +1,8 @@
 <metadata>
-    <user>
-        <username>aegon</username>
-        <password>13c811c67dc60dd19db30e2209b74f6a</password>
-        <usertype>hospital_staff</usertype>
-        <privilege>0</privilege>
-    </user>
-    <user>
-        <username>visenya</username>
-        <password>13c811c67dc60dd19db30e2209b74f6a</password>
-        <usertype>hospital_staff</usertype>
-        <privilege>1</privilege>
-    </user>
+  <User>
+    <Username>a</Username>
+    <Password>a</Password>
+    <Usertype>patient</Usertype>
+    <Privilege>0</Privilege>
+  </User>
 </metadata>

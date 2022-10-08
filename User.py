@@ -1,39 +1,57 @@
 import xml.etree.ElementTree as ET
+import Validation as validation
+
+configurationFile = 'conf.xml'
+configurationTree = ET.parse(configurationFile)
+configurationRoot = configurationTree.getroot()
+
+dataFile = 'data.xml'
+dataTree = ET.parse(dataFile)
+dataRoot = dataTree.getroot()
 
 
 class User:
 
-    def __init__(self, username, password, usertype, privilege):
+    def __init__(self, username, password, usertype, privilege='0'):  # default privilege level
         self.username = username
         self.password = password
         self.usertype = usertype
         self.privilege = privilege
+        self.isLoggedIn = False
 
-    @staticmethod
-    def readTag(userTag):
-        if userTag.tag != "user":
-            raise Exception(userTag.tag + " is not a tag of type user.")
-        elif userTag.find("username") is None or userTag.find("password") is None or userTag.find(
-                "usertype") is None or userTag.find("privilege") is None:
-            raise Exception("User tag does not have all necessary data tags.")
-        else:
-            return User(userTag.find("username").text, userTag.find("password").text, userTag.find("usertype").text,
-                        userTag.find("privilege").text)
+    def register(self):
+        if not validation.validUsername(self.username):
+            return False, "Invalid username"
+        elif not validation.validPassword(self.password):
+            return False, "Invalid password"
+        new = ET.SubElement(configurationRoot, 'User')
+        ET.SubElement(new, 'Username').text = self.username
+        ET.SubElement(new, 'Password').text = self.password
+        ET.SubElement(new, 'Usertype').text = self.usertype
+        ET.SubElement(new, 'Privilege').text = self.privilege
+        ET.indent(configurationTree, '  ')
+        configurationTree.write(configurationFile)
 
-    @staticmethod
-    def findTag(root, username):
-        for r in root:
-            if r.find('username').text == username:
-                return r
-        return None
+        newData = ET.SubElement(dataRoot, 'User')
+        ET.SubElement(new, 'Username').text = self.username
+        ET.SubElement(newData, 'PersonalDetails')
+        ET.SubElement(newData, 'SicknessDetails')
+        ET.SubElement(newData, 'LabTestPrescription')
+        ET.SubElement(newData, 'DrugPrescription')
+        ET.indent(dataTree, '  ')
+        dataTree.write(dataFile)
 
-    def createTag(self, root):
-        r = self.findTag(root)
-        if r is not None:
-            raise Exception("Same username exists")
-        new = ET.SubElement(root, 'user')
-        ET.SubElement(new, 'username').text = self.username
-        ET.SubElement(new, 'password').text = self.password
-        ET.SubElement(new, 'usertype').text = self.usertype
-        ET.SubElement(new, 'privilege').text = self.privilege
-        return new
+    def login(self):
+        if self.isLoggedIn:
+            return False, "User already logged in."
+        for userRoot in configurationRoot:
+            if userRoot.find('Username').text == self.username and userRoot.find('Password').text and userRoot.find('Usertype').text == self.usertype:
+                self.isLoggedIn = True
+                return True, "User logged in."
+        return False, "Invalid username or password"
+
+    def logout(self):
+        if not self.isLoggedIn:
+            return False, "User is not logged in."
+        self.isLoggedIn = False
+        return True, "User logged out."
