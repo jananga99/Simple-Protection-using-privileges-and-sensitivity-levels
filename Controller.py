@@ -20,10 +20,6 @@ class Controller:
         self.isLoggedIn = False
 
     def register(self):
-        if not validation.validUsername(self.username):
-            return False, "Invalid username"
-        elif not validation.validPassword(self.password):
-            return False, "Invalid password"
         new = ET.SubElement(configurationRoot, 'User')
         ET.SubElement(new, 'Username').text = self.username
         ET.SubElement(new, 'Password').text = self.password
@@ -40,6 +36,8 @@ class Controller:
         ET.SubElement(newData, 'DrugPrescription')
         ET.indent(dataTree, '  ')
         dataTree.write(dataFile)
+
+        return True, {"username": self.username, "usertype": self.usertype, "privilege": self.privilege}
 
     def __findUserTag(self):
         for userRoot in configurationRoot:

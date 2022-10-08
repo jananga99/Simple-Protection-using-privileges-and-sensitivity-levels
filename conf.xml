@@ -1,8 +1,14 @@
 <metadata>
   <User>
-    <Username>a</Username>
-    <Password>a</Password>
+    <Username>dsasd</Username>
+    <Password>25d55ad283aa400af464c76d713c07ad</Password>
     <Usertype>patient</Usertype>
+    <Privilege>0</Privilege>
+  </User>
+  <User>
+    <Username>dsa</Username>
+    <Password>25d55ad283aa400af464c76d713c07ad</Password>
+    <Usertype>hospital staff</Usertype>
     <Privilege>0</Privilege>
   </User>
 </metadata>

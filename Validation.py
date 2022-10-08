@@ -1,9 +1,6 @@
-
-
-
 def validUsername(data):
-    return True
+    return data.isalnum()
+
 
 def validPassword(data):
-    return True
-
+    return len(data) >= 8
