@@ -155,18 +155,44 @@ while keepGoing:
             print("Add personal details")
             username = input("Username : ").strip()
             details = input("Description : ").strip()
-            success, result = controller.addPersonalDetails(username, details)
-            while not success:
-                if result == "not authorized":
-                    print("Only doctor or receptionist can add personal details.")
-                    success = False
-                else:
-                    print(result)
-                    username = input("Username : ").strip()
-                    details = input("Description : ").strip()
-                    success, result = controller.addPersonalDetails(username, details)
+            optionManualSensitivity = input("Set manual sensitivity (y/N) : ").strip().lower()
+            while optionManualSensitivity not in ["y", "n"]:
+                print("Enter y (yes) or N (no)")
+                optionManualSensitivity = input("Set manual sensitivity (y/N) : ").strip().lower()
+            if optionManualSensitivity == "y":
+                print(
+                    "Enter the numbers as a sequence for privileges need to give as sensitivity (Example Read "
+                    "Sensitivity : 234 for giving reading privilege to Receptionist, pharmacist and lab technician")
+                print("6 - Doctor")
+                print("5 - Nurse")
+                print("4 - LabTechnician")
+                print("3 - Pharmacist")
+                print("2 - Receptionist")
+                print("1 - Attendant")
+                readSensitivity = input("Read Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(readSensitivity):
+                    print('Enter valid privilege number sequence')
+                    readSensitivity = input("Read Sensitivity : ").strip()
+                writeSensitivity = input("Write Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(readSensitivity):
+                    print('Enter valid privilege number sequence')
+                    readSensitivity = input("Write Sensitivity : ").strip()
+                success, result = controller.addPersonalDetails(username, details, readSensitivity, writeSensitivity)
+            else:
+                success, result = controller.addPersonalDetails(username, details)
             if success:
                 print("Personal details added.")
+            else:
+                if result == "not log in":
+                    print("You need to be logged in.")
+                elif result == "no user":
+                    print("There is no user exists for given username.")
+                elif result == "no section":
+                    print("There is no personal details section for given user.")
+                elif result == "not authorized":
+                    print("Action is not authorized. Contact a receptionist.")
+                else:
+                    print("An error occurred. Please try again.")
 
     # Add sickness details
     elif option == "212":
@@ -176,18 +202,44 @@ while keepGoing:
             print("Add sickness details")
             username = input("Username : ").strip()
             details = input("Description : ").strip()
-            success, result = controller.addSicknessDetails(username, details)
-            while not success:
-                if result == "not authorized":
-                    print("Only doctor or nurse can add personal details.")
-                    success = False
-                else:
-                    print(result)
-                    username = input("Username : ").strip()
-                    details = input("Description : ").strip()
-                    success, result = controller.addSicknessDetails(username, details)
+            optionManualSensitivity = input("Set manual sensitivity (y/N) : ").strip().lower()
+            while optionManualSensitivity not in ["y", "n"]:
+                print("Enter y (yes) or N (no)")
+                optionManualSensitivity = input("Set manual sensitivity (y/N) : ").strip().lower()
+            if optionManualSensitivity == "y":
+                print(
+                    "Enter the numbers as a sequence for privileges need to give as sensitivity (Example Read "
+                    "Sensitivity : 234 for giving reading privilege to Receptionist, pharmacist and lab technician")
+                print("6 - Doctor")
+                print("5 - Nurse")
+                print("4 - LabTechnician")
+                print("3 - Pharmacist")
+                print("2 - Receptionist")
+                print("1 - Attendant")
+                readSensitivity = input("Read Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(readSensitivity):
+                    print('Enter valid privilege number sequence')
+                    readSensitivity = input("Read Sensitivity : ").strip()
+                writeSensitivity = input("Write Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(readSensitivity):
+                    print('Enter valid privilege number sequence')
+                    readSensitivity = input("Write Sensitivity : ").strip()
+                success, result = controller.addSicknessDetails(username, details, readSensitivity, writeSensitivity)
+            else:
+                success, result = controller.addSicknessDetails(username, details)
             if success:
                 print("Sickness details added.")
+            else:
+                if result == "not log in":
+                    print("You need to be logged in.")
+                elif result == "no user":
+                    print("There is no user exists for given username.")
+                elif result == "no section":
+                    print("There is no sickness details section for given user.")
+                elif result == "not authorized":
+                    print("Action is not authorized. Contact a nurse.")
+                else:
+                    print("An error occurred. Please try again.")
 
     # Add drug prescription
     elif option == "213":
@@ -197,18 +249,44 @@ while keepGoing:
             print("Add drug prescriptions")
             username = input("Username : ").strip()
             details = input("Description : ").strip()
-            success, result = controller.addDrugPrescription(username, details)
-            while not success:
-                if result == "not authorized":
-                    print("Only doctor or pharmacist can add drug prescriptions.")
-                    success = False
-                else:
-                    print(result)
-                    username = input("Username : ").strip()
-                    details = input("Description : ").strip()
-                    success, result = controller.addDrugPrescription(username, details)
+            optionManualSensitivity = input("Set manual sensitivity (y/N) : ").strip().lower()
+            while optionManualSensitivity not in ["y", "n"]:
+                print("Enter y (yes) or N (no)")
+                optionManualSensitivity = input("Set manual sensitivity (y/N) : ").strip().lower()
+            if optionManualSensitivity == "y":
+                print(
+                    "Enter the numbers as a sequence for privileges need to give as sensitivity (Example Read "
+                    "Sensitivity : 234 for giving reading privilege to Receptionist, pharmacist and lab technician")
+                print("6 - Doctor")
+                print("5 - Nurse")
+                print("4 - LabTechnician")
+                print("3 - Pharmacist")
+                print("2 - Receptionist")
+                print("1 - Attendant")
+                readSensitivity = input("Read Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(readSensitivity):
+                    print('Enter valid privilege number sequence')
+                    readSensitivity = input("Read Sensitivity : ").strip()
+                writeSensitivity = input("Write Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(readSensitivity):
+                    print('Enter valid privilege number sequence')
+                    readSensitivity = input("Write Sensitivity : ").strip()
+                success, result = controller.addDrugPrescriptionDetails(username, details, readSensitivity, writeSensitivity)
+            else:
+                success, result = controller.addDrugPrescriptionDetails(username, details)
             if success:
                 print("Drug prescription added.")
+            else:
+                if result == "not log in":
+                    print("You need to be logged in.")
+                elif result == "no user":
+                    print("There is no user exists for given username.")
+                elif result == "no section":
+                    print("There is no drug prescription section for given user.")
+                elif result == "not authorized":
+                    print("Action is not authorized. Contact a pharmacist.")
+                else:
+                    print("An error occurred. Please try again.")
 
     # Add lab test prescription
     elif option == "214":
@@ -218,18 +296,44 @@ while keepGoing:
             print("Add Lab Test prescriptions")
             username = input("Username : ").strip()
             details = input("Description : ").strip()
-            success, result = controller.addLabTestPrescription(username, details)
-            while not success:
-                if result == "not authorized":
-                    print("Only doctor or lab technician can add lab test prescriptions.")
-                    success = False
-                else:
-                    print(result)
-                    username = input("Username : ").strip()
-                    details = input("Description : ").strip()
-                    success, result = controller.addLabTestPrescription(username, details)
+            optionManualSensitivity = input("Set manual sensitivity (y/N) : ").strip().lower()
+            while optionManualSensitivity not in ["y", "n"]:
+                print("Enter y (yes) or N (no)")
+                optionManualSensitivity = input("Set manual sensitivity (y/N) : ").strip().lower()
+            if optionManualSensitivity == "y":
+                print(
+                    "Enter the numbers as a sequence for privileges need to give as sensitivity (Example Read "
+                    "Sensitivity : 234 for giving reading privilege to Receptionist, pharmacist and lab technician")
+                print("6 - Doctor")
+                print("5 - Nurse")
+                print("4 - LabTechnician")
+                print("3 - Pharmacist")
+                print("2 - Receptionist")
+                print("1 - Attendant")
+                readSensitivity = input("Read Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(readSensitivity):
+                    print('Enter valid privilege number sequence')
+                    readSensitivity = input("Read Sensitivity : ").strip()
+                writeSensitivity = input("Write Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(readSensitivity):
+                    print('Enter valid privilege number sequence')
+                    readSensitivity = input("Write Sensitivity : ").strip()
+                success, result = controller.addLabTestPrescriptionDetails(username, details, readSensitivity, writeSensitivity)
+            else:
+                success, result = controller.addLabTestPrescriptionDetails(username, details)
             if success:
                 print("Lab test prescription added.")
+            else:
+                if result == "not log in":
+                    print("You need to be logged in.")
+                elif result == "no user":
+                    print("There is no user exists for given username.")
+                elif result == "no section":
+                    print("There is no lab test prescription section for given user.")
+                elif result == "not authorized":
+                    print("Action is not authorized. Contact a lab technician.")
+                else:
+                    print("An error occurred. Please try again.")
 
     # View Personal Details
     elif option == "221":
@@ -252,6 +356,8 @@ while keepGoing:
                     print("There is no user exists for given username.")
                 elif result == "no section":
                     print("There is no personal details section for given user.")
+                elif result == "not authorized":
+                    print("Action is not authorized. Contact a receptionist.")
                 else:
                     print("An error occurred. Please try again.")
 
@@ -276,6 +382,8 @@ while keepGoing:
                     print("There is no user exists for given username.")
                 elif result == "no section":
                     print("There is no sickness details section for given user.")
+                elif result == "not authorized":
+                    print("Action is not authorized. Contact a nurse.")
                 else:
                     print("An error occurred. Please try again.")
 
@@ -300,6 +408,8 @@ while keepGoing:
                     print("There is no user exists for given username.")
                 elif result == "no section":
                     print("There is no drug prescriptions section for given user.")
+                elif result == "not authorized":
+                    print("Action is not authorized. Contact the pharmacist.")
                 else:
                     print("An error occurred. Please try again.")
 
@@ -324,6 +434,8 @@ while keepGoing:
                     print("There is no user exists for given username.")
                 elif result == "no section":
                     print("There is no lab test prescriptions section for given user.")
+                elif result == "not authorized":
+                    print("Action is not authorized. Contact the lab technician.")
                 else:
                     print("An error occurred. Please try again.")
 
@@ -366,7 +478,7 @@ while keepGoing:
                     print("Action is not authorized. Contact a receptionist.")
                 else:
                     print("An error occurred. Please try again.")
-                    
+
     # Edit Sickness Details
     elif option == "232":
         if controller is None or not controller.isLoggedIn:
@@ -406,7 +518,7 @@ while keepGoing:
                     print("Action is not authorized. Contact a nurse.")
                 else:
                     print("An error occurred. Please try again.")
-                    
+
     # Edit Drug Prescriptions
     elif option == "233":
         if controller is None or not controller.isLoggedIn:
@@ -446,7 +558,7 @@ while keepGoing:
                     print("Action is not authorized. Contact the pharmacist.")
                 else:
                     print("An error occurred. Please try again.")
-                    
+
     # Edit LabTest Prescriptions
     elif option == "234":
         if controller is None or not controller.isLoggedIn:
@@ -524,7 +636,7 @@ while keepGoing:
                     print("Action is not authorized. Contact a receptionist.")
                 else:
                     print("An error occurred. Please try again.")
-                    
+
     # Delete Sickness Information Record
     elif option == "242":
         if controller is None or not controller.isLoggedIn:

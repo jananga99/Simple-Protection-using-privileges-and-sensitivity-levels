@@ -1,5 +1,7 @@
 import xml.etree.ElementTree as ET
 
+import Validation
+
 configurationFile = 'conf.xml'
 configurationTree = ET.parse(configurationFile)
 configurationRoot = configurationTree.getroot()
@@ -10,6 +12,12 @@ dataRoot = dataTree.getroot()
 
 
 class Controller:
+    createDeleteSensitivities = {
+        "PersonalDetails": "26",
+        "SicknessDetails": "56",
+        "DrugPrescription": "36",
+        "LabTestPrescription": "46",
+    }
 
     def __init__(self, username, password, usertype):  # default privilege level
         self.username = username
@@ -71,97 +79,109 @@ class Controller:
         self.isLoggedIn = False
         return True, None
 
-    def addPersonalDetails(self, username, data, sensitivity='23456'):
+    def addPersonalDetails(self, username, data, readSensitivity='23456', writeSensitivity='26'):
         if not self.isLoggedIn:
             return False, "not log in"
-        if self.privilege not in "26":
+        if self.privilege not in Controller.createDeleteSensitivities["PersonalDetails"]:
             return False, "not authorized"
         success, userDataRoot = self.__findUserDataTag(username)
         if not success:
             return False, "no user"
         subDataRoot = userDataRoot.find('PersonalDetails')
         if subDataRoot is None:
-            return False, "No personal details for user data"
+            return False, "no section"
         count = 0
         for _ in subDataRoot:
             count += 1
         new = ET.SubElement(subDataRoot, 'data')
         ET.SubElement(new, 'id').text = str(count)
         ET.SubElement(new, 'desc').text = data
-        ET.SubElement(new, 'sensitivity').text = sensitivity
+        sensitivityRoot = ET.SubElement(new, 'sensitivity')
+        ET.SubElement(sensitivityRoot, 'read').text = readSensitivity
+        ET.SubElement(sensitivityRoot, 'write').text = writeSensitivity
         ET.SubElement(new, "isDeleted").text = str(False)
         ET.indent(dataTree, '  ')
         dataTree.write(dataFile)
-        return True, {"id": str(count), "desc": data, "sensitivity": sensitivity}
+        return True, {"id": str(count), "desc": data, "readSensitivity": readSensitivity,
+                      "writeSensitivity": writeSensitivity}
 
-    def addSicknessDetails(self, username, data, sensitivity='3456'):
+    def addSicknessDetails(self, username, data, readSensitivity='3456', writeSensitivity='56'):
         if not self.isLoggedIn:
             return False, "not log in"
-        if self.privilege not in "56":
-            return False, "Only doctor or nurse can add sickness details."
+        if self.privilege not in Controller.createDeleteSensitivities["SicknessDetails"]:
+            return False, "not authorized"
         success, userDataRoot = self.__findUserDataTag(username)
         if not success:
             return False, "no user"
         subDataRoot = userDataRoot.find('SicknessDetails')
         if subDataRoot is None:
-            return False, "No personal details for user data"
+            return False, "no user"
         count = 0
         for _ in subDataRoot:
             count += 1
         new = ET.SubElement(subDataRoot, 'data')
         ET.SubElement(new, 'id').text = str(count)
         ET.SubElement(new, 'desc').text = data
-        ET.SubElement(new, 'sensitivity').text = sensitivity
+        sensitivityRoot = ET.SubElement(new, 'sensitivity')
+        ET.SubElement(sensitivityRoot, 'read').text = readSensitivity
+        ET.SubElement(sensitivityRoot, 'write').text = writeSensitivity
         ET.SubElement(new, "isDeleted").text = str(False)
         ET.indent(dataTree, '  ')
         dataTree.write(dataFile)
-        return True, {"id": str(count), "desc": data, "sensitivity": sensitivity}
+        return True, {"id": str(count), "desc": data, "readSensitivity": readSensitivity,
+                      "writeSensitivity": writeSensitivity}
 
-    def addDrugPrescription(self, username, data, sensitivity='356'):
+    def addDrugPrescription(self, username, data, readSensitivity='356', writeSensitivity='36'):
         if not self.isLoggedIn:
             return False, "not log in"
-        if self.privilege not in "36":
-            return False, "Only doctor or pharmacist can add drug prescriptions."
+        if self.privilege not in Controller.createDeleteSensitivities["DrugPrescription"]:
+            return False, "not authorized"
         success, userDataRoot = self.__findUserDataTag(username)
         if not success:
             return False, "no user"
         subDataRoot = userDataRoot.find('DrugPrescription')
         if subDataRoot is None:
-            return False, "No personal details for user data"
+            return False, "no user"
         count = 0
         for _ in subDataRoot:
             count += 1
         new = ET.SubElement(subDataRoot, 'data')
         ET.SubElement(new, 'id').text = str(count)
         ET.SubElement(new, 'desc').text = data
-        ET.SubElement(new, 'sensitivity').text = sensitivity
+        sensitivityRoot = ET.SubElement(new, 'sensitivity')
+        ET.SubElement(sensitivityRoot, 'read').text = readSensitivity
+        ET.SubElement(sensitivityRoot, 'write').text = writeSensitivity
         ET.SubElement(new, "isDeleted").text = str(False)
         ET.indent(dataTree, '  ')
         dataTree.write(dataFile)
-        return True, {"id": str(count), "desc": data, "sensitivity": sensitivity}
+        return True, {"id": str(count), "desc": data, "readSensitivity": readSensitivity,
+                      "writeSensitivity": writeSensitivity}
 
-    def addLabTestPrescription(self, username, data, sensitivity='46'):
+    def addLabTestPrescription(self, username, data, readSensitivity='46', writeSensitivity='46'):
         if not self.isLoggedIn:
             return False, "not log in"
-        if self.privilege not in "46":
-            return False, "Only doctor or lab technician can add lab test prescriptions."
+        if self.privilege not in Controller.createDeleteSensitivities["LabTestPrescription"]:
+            return False, "not authorized"
         success, userDataRoot = self.__findUserDataTag(username)
         if not success:
             return False, "no user"
         subDataRoot = userDataRoot.find('LabTestPrescription')
         if subDataRoot is None:
-            return False, "No personal details for user data"
+            return False, "no user"
         count = 0
         for _ in subDataRoot:
             count += 1
         new = ET.SubElement(subDataRoot, 'data')
         ET.SubElement(new, 'id').text = str(count)
         ET.SubElement(new, 'desc').text = data
-        ET.SubElement(new, 'sensitivity').text = sensitivity
+        sensitivityRoot = ET.SubElement(new, 'sensitivity')
+        ET.SubElement(sensitivityRoot, 'read').text = readSensitivity
+        ET.SubElement(sensitivityRoot, 'write').text = writeSensitivity
         ET.SubElement(new, "isDeleted").text = str(False)
         ET.indent(dataTree, '  ')
         dataTree.write(dataFile)
-        return True, {"id": str(count), "desc": data, "sensitivity": sensitivity}
+        return True, {"id": str(count), "desc": data, "readSensitivity": readSensitivity,
+                      "writeSensitivity": writeSensitivity}
 
     def viewPersonalDetails(self, username):
         if not self.isLoggedIn:
@@ -174,7 +194,8 @@ class Controller:
             return False, "no section"
         retData = []
         for dataRecord in subDataRoot:
-            if dataRecord.find("isDeleted").text == "False" and self.privilege in dataRecord.find('sensitivity').text:
+            if dataRecord.find("isDeleted").text == "False" and self.privilege in dataRecord.find('sensitivity').find(
+                    'readSensitivity').text:
                 retData.append(
                     {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
                      "sensitivity": dataRecord.find("sensitivity").text})
@@ -191,7 +212,8 @@ class Controller:
             return False, "section empty"
         retData = []
         for dataRecord in subDataRoot:
-            if dataRecord.find("isDeleted").text == "False" and self.privilege in dataRecord.find('sensitivity').text:
+            if dataRecord.find("isDeleted").text == "False" and self.privilege in dataRecord.find('sensitivity').find(
+                    'readSensitivity').text:
                 retData.append(
                     {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
                      "sensitivity": dataRecord.find("sensitivity").text})
@@ -208,7 +230,8 @@ class Controller:
             return False, "no section"
         retData = []
         for dataRecord in subDataRoot:
-            if dataRecord.find("isDeleted").text == "False" and self.privilege in dataRecord.find('sensitivity').text:
+            if dataRecord.find("isDeleted").text == "False" and self.privilege in dataRecord.find('sensitivity').find(
+                    'readSensitivity').text:
                 retData.append(
                     {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
                      "sensitivity": dataRecord.find("sensitivity").text})
@@ -225,7 +248,8 @@ class Controller:
             return False, "no section"
         retData = []
         for dataRecord in subDataRoot:
-            if dataRecord.find("isDeleted").text == "False" and self.privilege in dataRecord.find('sensitivity').text:
+            if dataRecord.find("isDeleted").text == "False" and self.privilege in dataRecord.find('sensitivity').find(
+                    'readSensitivity').text:
                 retData.append(
                     {"id": dataRecord.find("id").text, "desc": dataRecord.find("desc").text,
                      "sensitivity": dataRecord.find("sensitivity").text})
@@ -242,11 +266,12 @@ class Controller:
             return False, "no section"
         for dataRecord in subDataRoot:
             if dataRecord.find("id").text == data["id"] and dataRecord.find("isDeleted").text == "False":
-                if self.privilege not in dataRecord.find('sensitivity').text:
+                if self.privilege not in dataRecord.find('sensitivity').find('writeSensitivity').text:
                     return False, "not authorized"
                 dataRecord.find("desc").text = data["desc"]
                 dataTree.write(dataFile)
-                return True, {"id": data["id"], "desc": data["desc"], "sensitivity": dataRecord.find("sensitivity").text}
+                return True, {"id": data["id"], "desc": data["desc"],
+                              "sensitivity": dataRecord.find("sensitivity").text}
         return False, "no record"
 
     def editSicknessDetails(self, username, data):
@@ -260,11 +285,12 @@ class Controller:
             return False, "no section"
         for dataRecord in subDataRoot:
             if dataRecord.find("id").text == data["id"] and dataRecord.find("isDeleted").text == "False":
-                if self.privilege not in dataRecord.find('sensitivity').text:
+                if self.privilege not in dataRecord.find('sensitivity').find('writeSensitivity').text:
                     return False, "not authorized"
                 dataRecord.find("desc").text = data["desc"]
                 dataTree.write(dataFile)
-                return True, {"id": data["id"], "desc": data["desc"], "sensitivity": dataRecord.find("sensitivity").text}
+                return True, {"id": data["id"], "desc": data["desc"],
+                              "sensitivity": dataRecord.find("sensitivity").text}
         return False, "no record"
 
     def editDrugPrescription(self, username, data):
@@ -278,11 +304,12 @@ class Controller:
             return False, "no section"
         for dataRecord in subDataRoot:
             if dataRecord.find("id").text == data["id"] and dataRecord.find("isDeleted").text == "False":
-                if self.privilege not in dataRecord.find('sensitivity').text:
+                if self.privilege not in dataRecord.find('sensitivity').find('writeSensitivity').text:
                     return False, "not authorized"
                 dataRecord.find("desc").text = data["desc"]
                 dataTree.write(dataFile)
-                return True, {"id": data["id"], "desc": data["desc"], "sensitivity": dataRecord.find("sensitivity").text}
+                return True, {"id": data["id"], "desc": data["desc"],
+                              "sensitivity": dataRecord.find("sensitivity").text}
         return False, "no record"
 
     def editLabTestPrescription(self, username, data):
@@ -296,17 +323,18 @@ class Controller:
             return False, "no section"
         for dataRecord in subDataRoot:
             if dataRecord.find("id").text == data["id"] and dataRecord.find("isDeleted").text == "False":
-                if self.privilege not in dataRecord.find('sensitivity').text:
+                if self.privilege not in dataRecord.find('sensitivity').find('writeSensitivity').text:
                     return False, "not authorized"
                 dataRecord.find("desc").text = data["desc"]
                 dataTree.write(dataFile)
-                return True, {"id": data["id"], "desc": data["desc"], "sensitivity": dataRecord.find("sensitivity").text}
+                return True, {"id": data["id"], "desc": data["desc"],
+                              "sensitivity": dataRecord.find("sensitivity").text}
         return False, "no record"
 
     def deletePersonalDetails(self, username, dataId):
         if not self.isLoggedIn:
             return False, "not log in"
-        if self.privilege not in "26":
+        if self.privilege not in Controller.createDeleteSensitivities["PersonalDetails"]:
             return False, "not authorized"
         success, userDataRoot = self.__findUserDataTag(username)
         if not success:
@@ -324,7 +352,7 @@ class Controller:
     def deleteSicknessDetails(self, username, dataId):
         if not self.isLoggedIn:
             return False, "not log in"
-        if self.privilege not in "56":
+        if self.privilege not in Controller.createDeleteSensitivities["SicknessDetails"]:
             return False, "not authorized"
         success, userDataRoot = self.__findUserDataTag(username)
         if not success:
@@ -342,7 +370,7 @@ class Controller:
     def deleteDrugPrescription(self, username, dataId):
         if not self.isLoggedIn:
             return False, "not log in"
-        if self.privilege not in "36":
+        if self.privilege not in Controller.createDeleteSensitivities["DrugPrescription"]:
             return False, "not authorized"
         success, userDataRoot = self.__findUserDataTag(username)
         if not success:
@@ -360,7 +388,7 @@ class Controller:
     def deleteLabTestPrescription(self, username, dataId):
         if not self.isLoggedIn:
             return False, "not log in"
-        if self.privilege not in "46":
+        if self.privilege not in Controller.createDeleteSensitivities["LabTestPrescription"]:
             return False, "not authorized"
         success, userDataRoot = self.__findUserDataTag(username)
         if not success:
