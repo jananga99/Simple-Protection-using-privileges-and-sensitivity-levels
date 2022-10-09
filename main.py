@@ -1,12 +1,14 @@
+
 import hashlib
 
 import Validation
-from Controller import Controller
+from Model import Model
 
 keepGoing = True
 options = {
     "101": "101 - Register patient",
     "102": "102 - Log in patient",
+    "103": "103 - Log out",
     "201": "201 - Register hospital staff",
     "202": "202 - Log in hospital staff",
     "211": "211 - Add Personal Details",
@@ -46,19 +48,22 @@ while keepGoing:
         while not Validation.validUsername(username):
             print("Username is invalid. (username can only contain letters and numbers)")
             username = input("Username : ").strip()
+
         password = input("Password : ").strip()
-        """
         while not Validation.validPassword(password):
             print("Password must be longer than 8 characters.")
             password = input("Password : ").strip()
-        """
+        confirmPassword = input("Confirm password : ").strip()
+        while password != confirmPassword:
+            password = input("Password : ").strip()
+            while not Validation.validPassword(password):
+                print("Password must be longer than 8 characters.")
+                password = input("Password : ").strip()
+            confirmPassword = input("Confirm password : ").strip()
         password = hashlib.md5(password.encode())
-        confirmPassword = hashlib.md5(input("Confirm password : ").strip().encode())
-        while password.hexdigest() != confirmPassword.hexdigest():
-            print("Password and confirm password does not match, try again.")
-            password = hashlib.md5(input("Password : ").strip().encode())
-            confirmPassword = hashlib.md5(input("Password : ").strip().encode())
-        controller = Controller(username, password.hexdigest(), "patient")
+        confirmPassword = hashlib.md5(confirmPassword.encode())
+
+        controller = Model(username, password.hexdigest(), "patient")
         success, result = controller.register()
         if success:
             print("Patient registered successfully")
@@ -69,19 +74,21 @@ while keepGoing:
     elif option == "201":
         username = input("Username : ").strip()
         while not Validation.validUsername(username):
-            print("Username is invalid. (username can only contain letters and numbers)")
+            print("Username is invalid. (username must have at least 4 character)")
             username = input("Username : ").strip()
-        password = hashlib.md5(input("Password : ").strip().encode())
-        """
+        password = input("Password : ").strip()
         while not Validation.validPassword(password):
             print("Password must be longer than 8 characters.")
             password = input("Password : ").strip()
-            """
-        confirmPassword = hashlib.md5(input("Confirm Password : ").strip().encode())
-        while password.hexdigest() != confirmPassword.hexdigest():
-            print("Password and confirm password does not match, try again.")
-            password = hashlib.md5(input("Password : ").strip().encode())
-            confirmPassword = hashlib.md5(input("Password : ").strip().encode())
+        confirmPassword = input("Confirm password : ").strip()
+        while password != confirmPassword:
+            password = input("Password : ").strip()
+            while not Validation.validPassword(password):
+                print("Password must be longer than 8 characters.")
+                password = input("Password : ").strip()
+            confirmPassword = input("Confirm password : ").strip()
+        password = hashlib.md5(password.encode())
+        confirmPassword = hashlib.md5(confirmPassword.encode())
         print("Available professions (type profession number e.g. profession : 6 for doctor)")
         print("6 - Doctor")
         print("5 - Nurse")
@@ -93,7 +100,7 @@ while keepGoing:
         while privilege not in {"1", "2", "3", "4", "5", "6"}:
             print("Enter valid profession number")
             privilege = input("Enter privilege : ").strip()
-        controller = Controller(username, password.hexdigest(), "hospital staff")
+        controller = Model(username, password.hexdigest(), "hospital staff")
         success, result = controller.register(privilege)
         if success:
             print("Hospital staff registered successfully")
@@ -107,25 +114,34 @@ while keepGoing:
             print("Username is invalid. (username can only contain letters and numbers)")
             username = input("Username : ").strip()
         password = hashlib.md5(input("Password : ").strip().encode())
-        controller = Controller(username, password.hexdigest(), "patient")
+        controller = Model(username, password.hexdigest(), "patient")
         success, result = controller.login()
         if success:
+            availableOptions = ["103"]
             print("Patient logged in successfully.")
         else:
             print(result)
+
+    # Log out
+    elif option == "103":
+        controller.logout()
+        availableOptions = ["101", "102", "201", "202"]
+        print("User logged out")
 
     # Log in hospital staff
     elif option == "202":
         print("Log in hospital staff")
         username = input("Username : ").strip()
         while not Validation.validUsername(username):
-            print("Username is invalid. (username can only contain letters and numbers)")
+            print("Username is invalid. (username must have at least 4 character)")
             username = input("Username : ").strip()
-        password = hashlib.md5(input("Password : ").strip().encode())
-        controller = Controller(username, password.hexdigest(), "hospital staff")
+        password = input("Password : ").strip()
+        password = hashlib.md5(password.encode())
+        controller = Model(username, password.hexdigest(), "hospital staff")
         success, result = controller.login()
         if success:
             availableOptions = [
+                "103",
                 "211",
                 "212",
                 "213",
@@ -169,15 +185,17 @@ while keepGoing:
                 print("3 - Pharmacist")
                 print("2 - Receptionist")
                 print("1 - Attendant")
-                readSensitivity = input("Read Sensitivity : ").strip()
-                while not Validation.validSensitivitySeq(readSensitivity):
+                read = input("Read Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(read):
                     print('Enter valid privilege number sequence')
-                    readSensitivity = input("Read Sensitivity : ").strip()
-                writeSensitivity = input("Write Sensitivity : ").strip()
-                while not Validation.validSensitivitySeq(readSensitivity):
+                    read = input("Read Sensitivity : ").strip()
+                read += "9"
+                write = input("Write Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(write):
                     print('Enter valid privilege number sequence')
-                    readSensitivity = input("Write Sensitivity : ").strip()
-                success, result = controller.addPersonalDetails(username, details, readSensitivity, writeSensitivity)
+                    write = input("Write Sensitivity : ").strip()
+                write += "9"
+                success, result = controller.addPersonalDetails(username, details, read, write)
             else:
                 success, result = controller.addPersonalDetails(username, details)
             if success:
@@ -216,15 +234,17 @@ while keepGoing:
                 print("3 - Pharmacist")
                 print("2 - Receptionist")
                 print("1 - Attendant")
-                readSensitivity = input("Read Sensitivity : ").strip()
-                while not Validation.validSensitivitySeq(readSensitivity):
+                read = input("Read Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(read):
                     print('Enter valid privilege number sequence')
-                    readSensitivity = input("Read Sensitivity : ").strip()
-                writeSensitivity = input("Write Sensitivity : ").strip()
-                while not Validation.validSensitivitySeq(readSensitivity):
+                    read = input("Read Sensitivity : ").strip()
+                read += "9"
+                write = input("Write Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(write):
                     print('Enter valid privilege number sequence')
-                    readSensitivity = input("Write Sensitivity : ").strip()
-                success, result = controller.addSicknessDetails(username, details, readSensitivity, writeSensitivity)
+                    write = input("Write Sensitivity : ").strip()
+                write += "9"
+                success, result = controller.addSicknessDetails(username, details, read, write)
             else:
                 success, result = controller.addSicknessDetails(username, details)
             if success:
@@ -263,17 +283,19 @@ while keepGoing:
                 print("3 - Pharmacist")
                 print("2 - Receptionist")
                 print("1 - Attendant")
-                readSensitivity = input("Read Sensitivity : ").strip()
-                while not Validation.validSensitivitySeq(readSensitivity):
+                read = input("Read Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(read):
                     print('Enter valid privilege number sequence')
-                    readSensitivity = input("Read Sensitivity : ").strip()
-                writeSensitivity = input("Write Sensitivity : ").strip()
-                while not Validation.validSensitivitySeq(readSensitivity):
+                    read = input("Read Sensitivity : ").strip()
+                read += "9"
+                write = input("Write Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(write):
                     print('Enter valid privilege number sequence')
-                    readSensitivity = input("Write Sensitivity : ").strip()
-                success, result = controller.addDrugPrescriptionDetails(username, details, readSensitivity, writeSensitivity)
+                    write = input("Write Sensitivity : ").strip()
+                write += "9"
+                success, result = controller.addDrugPrescription(username, details, read, write)
             else:
-                success, result = controller.addDrugPrescriptionDetails(username, details)
+                success, result = controller.addDrugPrescription(username, details)
             if success:
                 print("Drug prescription added.")
             else:
@@ -310,17 +332,20 @@ while keepGoing:
                 print("3 - Pharmacist")
                 print("2 - Receptionist")
                 print("1 - Attendant")
-                readSensitivity = input("Read Sensitivity : ").strip()
-                while not Validation.validSensitivitySeq(readSensitivity):
+                read = input("Read Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(read):
                     print('Enter valid privilege number sequence')
-                    readSensitivity = input("Read Sensitivity : ").strip()
-                writeSensitivity = input("Write Sensitivity : ").strip()
-                while not Validation.validSensitivitySeq(readSensitivity):
+                    read = input("Read Sensitivity : ").strip()
+                read += "9"
+                write = input("Write Sensitivity : ").strip()
+                while not Validation.validSensitivitySeq(write):
                     print('Enter valid privilege number sequence')
-                    readSensitivity = input("Write Sensitivity : ").strip()
-                success, result = controller.addLabTestPrescriptionDetails(username, details, readSensitivity, writeSensitivity)
+                    write = input("Write Sensitivity : ").strip()
+                write += "9"
+                success, result = controller.addLabTestPrescription(username, details, read,
+                                                                    write)
             else:
-                success, result = controller.addLabTestPrescriptionDetails(username, details)
+                success, result = controller.addLabTestPrescription(username, details)
             if success:
                 print("Lab test prescription added.")
             else:
@@ -615,7 +640,7 @@ while keepGoing:
                     for record in result:
                         print("Record id : %s \n %s " % (record["id"], record["desc"]))
                         recordIds.append(record["id"])
-                    print("Enter the ids of records you need to modify( e.g. Record id : 3)")
+                    print("Enter the ids of records you need to delete( e.g. Record id : 3)")
                     recordId = input("Record id : ").strip()
                     while recordId not in recordIds:
                         print("Enter a valid record id")
@@ -653,7 +678,7 @@ while keepGoing:
                     for record in result:
                         print("Record id : %s \n %s " % (record["id"], record["desc"]))
                         recordIds.append(record["id"])
-                    print("Enter the ids of records you need to modify( e.g. Record id : 3)")
+                    print("Enter the ids of records you need to delete( e.g. Record id : 3)")
                     recordId = input("Record id : ").strip()
                     while recordId not in recordIds:
                         print("Enter a valid record id")
@@ -691,7 +716,7 @@ while keepGoing:
                     for record in result:
                         print("Record id : %s \n %s " % (record["id"], record["desc"]))
                         recordIds.append(record["id"])
-                    print("Enter the ids of records you need to modify( e.g. Record id : 3)")
+                    print("Enter the ids of records you need to delete( e.g. Record id : 3)")
                     recordId = input("Record id : ").strip()
                     while recordId not in recordIds:
                         print("Enter a valid record id")
@@ -729,7 +754,7 @@ while keepGoing:
                     for record in result:
                         print("Record id : %s \n %s " % (record["id"], record["desc"]))
                         recordIds.append(record["id"])
-                    print("Enter the ids of records you need to modify( e.g. Record id : 3)")
+                    print("Enter the ids of records you need to delete( e.g. Record id : 3)")
                     recordId = input("Record id : ").strip()
                     while recordId not in recordIds:
                         print("Enter a valid record id")

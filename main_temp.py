@@ -1,9 +1,9 @@
 
 
-from Controller import Controller
+from Model import Model
 
 
-controller = Controller("a", "a", "patient")
+controller = Model("a", "a", "patient")
 #user.register()
 success, result = controller.login()
 #print(success)

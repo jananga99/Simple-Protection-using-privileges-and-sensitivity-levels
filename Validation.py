@@ -1,5 +1,5 @@
 def validUsername(data):
-    return data.isalnum()
+    return len(data) >= 4
 
 
 def validPassword(data):

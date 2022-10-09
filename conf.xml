@@ -1,2 +1,62 @@
 <metadata>
+  <User>
+    <Username>Admin</Username>
+    <Password>2ca2163c2d6c65b62d62c221b11e9558</Password>
+    <Usertype>hospital staff</Usertype>
+    <Privilege>9</Privilege>
+  </User>
+  <User>
+    <Username>John Creese</Username>
+    <Password>6eea9b7ef19179a06954edd0f6c05ceb</Password>
+    <Usertype>hospital staff</Usertype>
+    <Privilege>6</Privilege>
+  </User>
+  <User>
+    <Username>Raymond Stan</Username>
+    <Password>25d55ad283aa400af464c76d713c07ad</Password>
+    <Usertype>patient</Usertype>
+    <Privilege>0</Privilege>
+  </User>
+  <User>
+    <Username>Terry Silver</Username>
+    <Password>6eea9b7ef19179a06954edrt567hfbhw</Password>
+    <Usertype>hospital staff</Usertype>
+    <Privilege>1</Privilege>
+  </User>
+  <User>
+    <Username>Daniel Larusso</Username>
+    <Password>6eea9b7ef19179a069wer50f6c05ceb</Password>
+    <Usertype>hospital staff</Usertype>
+    <Privilege>2</Privilege>
+  </User>
+  <User>
+    <Username>Miguel Diaz</Username>
+    <Password>fgdd4bhfs4179a06954edd0f6c05ceb</Password>
+    <Usertype>hospital staff</Usertype>
+    <Privilege>3</Privilege>
+  </User>
+  <User>
+    <Username>Johny Lawrence</Username>
+    <Password>6eea9b7efsdf456hgcvbn7rs36c05ceb</Password>
+    <Usertype>hospital staff</Usertype>
+    <Privilege>4</Privilege>
+  </User>
+  <User>
+    <Username>Robby Keene</Username>
+    <Password>6eea9b7wedgt567uv954edd0f6c05ceb</Password>
+    <Usertype>hospital staff</Usertype>
+    <Privilege>5</Privilege>
+  </User>
+  <User>
+    <Username>Eli Mosquitz</Username>
+    <Password>6eea9b7ef1917def5d54edd0f6c05ceb</Password>
+    <Usertype>hospital staff</Usertype>
+    <Privilege>5</Privilege>
+  </User>
+  <User>
+    <Username>Aemond Tony</Username>
+    <Password>a4f1383461ffd7dac7da929dfcf46cfb</Password>
+    <Usertype>hospital staff</Usertype>
+    <Privilege>1</Privilege>
+  </User>
 </metadata>
